@@ -1,0 +1,58 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/forge_engine",
+    "crates/forge_editor",
+    "crates/forge_player",
+    "crates/forge_cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
+
+[workspace.dependencies]
+forge_engine = { path = "crates/forge_engine" }
+bevy = "0.19"
+bevy_egui = "0.42"
+# The physics engine (Box3D) and its Bevy plugin (the plugin owns the world and steps it; the engine owns the bodies).
+bevy_box3d = "0.4.1"
+box3d = "0.3.1"
+mlua = { version = "0.10", features = ["luau", "serialize"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+anyhow = "1"
+walkdir = "2"
+clap = { version = "4", features = ["derive"] }
+rfd = "0.15"
+# Dockable, tabbed, floating windows for the editor (built for egui 0.36, the version bevy_egui 0.42 uses).
+egui_dock = { version = "0.21", features = ["serde"] }
+dirs = "6"
+# Thumbnails of image assets in the Asset Browser (the version Bevy already uses).
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "bmp", "tga", "gif", "webp", "tiff", "hdr"] }
+
+# glTF / GLB models (the version Bevy already uses). No importer: the engine reads buffers and pictures through its own sources.
+gltf = { version = "1.4", default-features = false, features = ["utils", "KHR_materials_emissive_strength", "KHR_materials_unlit"] }
+# Audio output and decoding (wav, mp3, flac, ogg, m4a). Bevy's own audio plugin is not used: the engine mixes its own sounds.
+rodio = { version = "0.22", default-features = false, features = ["playback", "flac", "mp3", "mp4", "vorbis", "wav"] }
+
+# Fast iteration: your code is lightly optimised, dependencies (Bevy) fully.
+[profile.dev]
+opt-level = 1
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+# `cargo build --profile dist` -> smallest/fastest shipping binaries.
+[profile.dist]
+inherits = "release"
+lto = "fat"
+panic = "abort"
+strip = true

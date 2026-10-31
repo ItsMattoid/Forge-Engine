@@ -1,0 +1,15 @@
+[package]
+name = "forge_player"
+description = "Standalone Forge game player (this is the executable shipped with your game)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+jit = ["forge_engine/jit"]
+
+[dependencies]
+forge_engine.workspace = true
+anyhow.workspace = true

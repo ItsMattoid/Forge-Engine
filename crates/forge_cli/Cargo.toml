@@ -1,0 +1,16 @@
+[package]
+name = "forge_cli"
+description = "Forge command line: create, check, run and build projects"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "forge"
+path = "src/main.rs"
+
+[dependencies]
+forge_engine.workspace = true
+anyhow.workspace = true
+clap.workspace = true

@@ -1,0 +1,36 @@
+[package]
+name = "forge_engine"
+description = "Forge engine runtime: scene model, Luau scripting host, packaging"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+# Luau native code generation (x86_64 / aarch64). Faster scripts, longer compile.
+jit = ["mlua/luau-jit"]
+
+[dependencies]
+bevy.workspace = true
+# The debug overlays (diag::ui) are egui panels, shared by the editor and the player.
+bevy_egui.workspace = true
+# Physics: Box3D through its Bevy plugin (see physics/mod.rs).
+bevy_box3d.workspace = true
+box3d.workspace = true
+mlua.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+anyhow.workspace = true
+walkdir.workspace = true
+# Reads the memory the process uses (only while the memory overlay is on). Already part of Bevy's build.
+sysinfo = { version = "0.34", default-features = false, features = ["system"] }
+# Decodes the icon and the splash screen of a game (PNG and JPEG), and checks them in the editor and the build.
+image.workspace = true
+gltf.workspace = true
+rodio.workspace = true
+# Where a player's own settings are kept (the user's config folder).
+dirs.workspace = true
+# Sets the game window's icon (the version Bevy's windowing already uses).
+winit = { version = "0.30", default-features = false }
